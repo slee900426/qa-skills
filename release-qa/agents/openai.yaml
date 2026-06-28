@@ -1,0 +1,3 @@
+interface:
+  display_name: "Release QA"
+  short_description: "Release QA for reward tables, math specs, and server code."

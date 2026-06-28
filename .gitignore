@@ -1,0 +1,17 @@
+# 생성 산출물 (실제 게임 스펙·수치가 담길 수 있으므로 커밋 금지)
+output/*
+!output/.gitkeep
+
+# 입력/데이터 파일 (회사 자료 유입 방지)
+*.xlsx
+*.xls
+*.csv
+*.png
+*.jpg
+*.jpeg
+
+# OS / 에디터
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
