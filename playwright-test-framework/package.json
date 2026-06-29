@@ -1,0 +1,35 @@
+{
+  "name": "playwright-test-framework",
+  "version": "1.0.0",
+  "description": "Playwright + TypeScript E2E test framework (Page Object Model + fixtures). Ships a self-contained demo login app plus full SauceDemo public-site coverage.",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:demo": "playwright test tests/demo-local",
+    "test:saucedemo": "playwright test tests/public-sites/saucedemo",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "e2e",
+    "page-object-model",
+    "fixtures",
+    "testing",
+    "saucedemo"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.5",
+    "dotenv": "^16.4.7",
+    "http-server": "^14.1.1",
+    "typescript": "^5.7.3"
+  }
+}

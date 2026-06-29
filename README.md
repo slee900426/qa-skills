@@ -178,3 +178,38 @@ install-skill-from-github.py \
 - 각 `.md` 파일은 LLM 시스템 프롬프트 문서로, 별도 러너(Claude Code 등)가 호출하는 구조이다.
 - STEP 2의 Google Sheets 복제·STEP 4의 시트 쓰기는 외부 도구(MCP 등)를 통해 수행하는 것을 전제로 한다.
 - `data_writer`는 수치 파일이 없으면 수치 검증 섹션을 생략하고 기본 동작 체크만 작성한다.
+
+---
+
+## Playwright E2E Test Framework (`playwright-test-framework/`)
+
+> 이 모듈은 위의 **tc_gen 파이프라인 / release-qa Skill과는 별개입니다**.
+> 공유하는 코드나 설정이 없고, `playwright-test-framework/` 폴더 안에서 따로 완결됩니다.
+
+**목적** — Playwright로 웹 페이지를 자동 테스트할 때 코드를 어떻게 짜야 오래 가는지를 정리한 예제입니다.
+화면을 Page Object로 캡슐화하고(POM), 준비 과정은 fixtures로 주입하며,
+눈에 보이는 값을 그대로 박는 대신 관계·패턴으로 단언해 사소한 변경에 덜 깨지도록 했습니다.
+새 프로젝트에서 그대로 복제(clone / "Use this template")해 출발점으로 쓰면 됩니다.
+
+- **자체 데모 앱**(`demo-app/index.html`) — 인터넷 없이 도는 로그인 폼입니다. http-server(포트 4173)가 자동으로 뜨고 꺼집니다.
+- **공개 사이트 [SauceDemo](https://www.saucedemo.com)** — login · inventory · product-detail · cart · checkout · menu · footer 전 기능을 다룹니다.
+
+설계의 핵심만 추리면 이렇습니다.
+
+- **POM** — 화면마다 객체 하나로 둡니다. 셀렉터·동작을 그 안에 모아 두면 UI가 바뀌어도 객체만 고치면 됩니다.
+- **Fixtures** — 로그인 같은 준비를 주입해, 테스트는 본론부터 시작합니다(`loginAs`).
+- **테스트용 셀렉터 우선** — `[data-test]` 표식을 먼저 써서 디자인 변경에 덜 흔들립니다.
+- **값을 박지 않는 단언** — 정렬은 배열 비교, 금액은 `소계+세금=합계` 계산, 문구는 정규식 부분 매칭으로 확인합니다.
+- **대상 두 갈래** — 인터넷 없이 도는 자체 데모와 실제 공개 사이트 양쪽에 같은 패턴을 적용합니다.
+
+TypeScript + [Playwright](https://playwright.dev/), **Page Object Model + fixtures** 설계이며 **chromium / firefox / webkit** 3개 브라우저에서 돌아갑니다.
+합쳐서 **141 테스트**(데모 2 + SauceDemo 45) × 3 브라우저가 전부 통과하는 것을 확인했습니다.
+
+```bash
+cd playwright-test-framework
+npm install
+npx playwright install
+npm test
+```
+
+설계 의도와 사용법은 **[`playwright-test-framework/README.md`](playwright-test-framework/README.md)**에 자세히 적어 뒀습니다.
